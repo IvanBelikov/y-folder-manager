@@ -64,7 +64,6 @@ const MoveResource = () => {
         } else {
             resources.cachedResources = resources.cachedResources.filter(
                 (folder) => {
-                    console.log(folder.path, resourceMover.currentPath)
                     return decodeURI(folder.path) !== resourceMover.currentPath
                 }
             )
