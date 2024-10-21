@@ -9,7 +9,7 @@ import { Article, Folder } from '@mui/icons-material'
 import { runInAction } from 'mobx'
 import { useState } from 'react'
 
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface ResourceListItemProps {
     item: IResource
@@ -25,6 +25,7 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({
     const [isHovered, setIsHovered] = useState(false)
 
     const navigate = useNavigate()
+    const location = useLocation()
 
     const { imageViewer, resourceMover } = useStores()
 
@@ -85,7 +86,10 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({
                         fileName={item.name}
                         type={item.type}
                     />
-                    <DeleteResource path={item.path} />
+                    <DeleteResource
+                        fileName={item.name}
+                        folder={decodeURI(location.pathname)}
+                    />
                 </div>
             ) : null}
         </div>

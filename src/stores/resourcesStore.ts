@@ -1,6 +1,8 @@
 import { ICachedResource } from '@/types/types'
 import { makeAutoObservable, runInAction } from 'mobx'
 
+import { resourceFullPath } from '@/utils'
+
 import api from '@/api'
 
 class ResourcesStore {
@@ -30,20 +32,22 @@ class ResourcesStore {
         runInAction(() => (this.loading = false))
     }
 
-    async deleteResource(path: string, currentFolder: string = '/') {
+    async deleteResource(folder: string, fileName: string) {
         runInAction(() => (this.loading = true))
+
+        const path = resourceFullPath(folder, fileName)
 
         const response = await api.deleteResource(path)
 
         if (response?.status === 204) {
             runInAction(() => {
                 const pathToChangeIndex = this.cachedResources.findIndex(
-                    (resource) => resource.path === currentFolder
+                    (resource) => resource.path === folder
                 )
 
                 this.cachedResources[pathToChangeIndex].items =
                     this.cachedResources[pathToChangeIndex].items.filter(
-                        (item) => item.path.slice(6) !== path
+                        (item) => item.name !== fileName
                     )
             })
         }
