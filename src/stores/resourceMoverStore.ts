@@ -1,12 +1,14 @@
 import { makeAutoObservable } from 'mobx'
 
 import api from '@/api'
+import { ResourceEnum } from '@/types/types'
 
 class ResourceMoverStore {
     protected _from = ''
     protected _currentPath = ''
     protected _resourceName = ''
 
+    resourceType: ResourceEnum | string = ''
     isOpened = false
 
     constructor() {

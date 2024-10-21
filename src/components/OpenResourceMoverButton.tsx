@@ -1,13 +1,19 @@
 import { useStores } from '@/rootStoreContext'
+import { ResourceEnum } from '@/types/types'
 import SendIcon from '@mui/icons-material/Send'
 import { useLocation } from 'react-router-dom'
 
 interface MoveResourceProps {
     path: string
     fileName: string
+    type: ResourceEnum
 }
 
-const MoveResource: React.FC<MoveResourceProps> = ({ path, fileName }) => {
+const MoveResource: React.FC<MoveResourceProps> = ({
+    path,
+    fileName,
+    type,
+}) => {
     const { resourceMover } = useStores()
     const location = useLocation()
 
@@ -17,6 +23,7 @@ const MoveResource: React.FC<MoveResourceProps> = ({ path, fileName }) => {
         resourceMover.open(location.pathname)
         resourceMover.from = path.slice(5)
         resourceMover.resourceName = fileName
+        resourceMover.resourceType = type
     }
 
     return (

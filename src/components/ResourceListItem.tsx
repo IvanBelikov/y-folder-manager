@@ -83,6 +83,7 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({
                     <OpenResourceMoverButton
                         path={item.path}
                         fileName={item.name}
+                        type={item.type}
                     />
                     <DeleteResource path={item.path} />
                 </div>
