@@ -2,7 +2,6 @@ import { useStores } from '@/rootStoreContext'
 import { runInAction } from 'mobx'
 import { useNavigate } from 'react-router-dom'
 
-import { ResourceEnum } from '@/types/types'
 import { getResourceFolder, resourceFullPath } from '@/utils'
 
 const MoveResource = () => {
@@ -26,8 +25,9 @@ const MoveResource = () => {
         )
 
         if ([201, 202].includes(response.status)) {
-            console.log(response.data.href)
-            updateResources()
+            runInAction(() => {
+                updateResources()
+            })
 
             runInAction(() => {
                 resources.loading = false
@@ -56,18 +56,10 @@ const MoveResource = () => {
             resourceMover.resourceName
         )}`
 
-        if (resourceMover.resourceType === ResourceEnum.File) {
-            resources.cachedResources[pathIndex].items = [
-                ...resources.cachedResources[pathIndex].items,
-                resource,
-            ]
-        } else {
-            resources.cachedResources = resources.cachedResources.filter(
-                (folder) => {
-                    return decodeURI(folder.path) !== resourceMover.currentPath
-                }
-            )
-        }
+        resources.cachedResources[pathIndex].items = [
+            ...resources.cachedResources[pathIndex].items,
+            resource,
+        ]
 
         resources.cachedResources[fromPathIndex].items =
             resources.cachedResources[fromPathIndex].items.filter(
