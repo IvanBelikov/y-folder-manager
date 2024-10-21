@@ -32,6 +32,7 @@ const ImageViewer = observer(() => {
                     onLoad={() => (imageViewer.isLoading = false)}
                     alt="testImg"
                     className="max-w-[80%] max-h-[80%] object-contain absolute"
+                    referrerPolicy="no-referrer"
                 />
             </div>
         </div>
